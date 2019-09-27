@@ -4,13 +4,15 @@ namespace Common
 {
     public static class GameRules
     {
-        private const int MinefieldMaxColumns = 100;
+        private const int MinefieldMaxColumns = 99;
         private const int MinefieldMinColumns = 1;
 
-        private const int MinefieldMaxRows = 100;
+        private const int MinefieldMaxRows = 99;
         private const int MinefieldMinRows = 1;
 
         private const int MinefieldMinMines = 0;
+
+        private const decimal minesCellsRatio = 2/3m;
 
         public static bool ValidateColumns(int cols, out string error)
         {
@@ -47,7 +49,7 @@ namespace Common
 
         public static bool ValidateMines(int mines, int cols, int rows, out string error)
         {
-            var maxMinesAllowed = cols * rows * 0.75;
+            var maxMinesAllowed = cols * rows * minesCellsRatio;
 
             if (mines < MinefieldMinMines)
             {
@@ -61,6 +63,16 @@ namespace Common
             }
             error = null;
             return true;
+        }
+
+        public static bool CanPutFlag(LayoutState[,] layout, Minefield minefield, int col, int row)
+        {
+            if (layout[col, row] == LayoutState.Discovered) return false;
+            if (layout[col, row] == LayoutState.Flag) return true;
+
+            var flagsInLayout = layout.Count(LayoutState.Flag);
+
+            return flagsInLayout < minefield.Mines;
         }
     }
 }

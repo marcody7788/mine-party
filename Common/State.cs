@@ -1,25 +1,38 @@
-﻿namespace Common
+﻿using System;
+
+namespace Common
 {
     public enum State
     {
-        None,
+        Zero,
+        One,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
         Mine,
-        Flag,
-        Number
     }
 
     public static class StateExtensions
     {
-        public static string Symbol(this State state)
+        public static State ToState(this int number)
         {
-            switch (state)
+            switch (number)
             {
-                case State.None: return " ";
-                case State.Mine: return "ò";
-                case State.Flag: return "p";
-                case State.Number: return "3";
-                default:
-                    return "ERR";
+                case 0: return State.Zero;
+                case 1: return State.One;
+                case 2: return State.Two;
+                case 3: return State.Three;
+                case 4: return State.Four;
+                case 5: return State.Five;
+                case 6: return State.Six;
+                case 7: return State.Seven;
+                case 8: return State.Eight;
+
+                default: throw new ArgumentException();
             }
         }
     }
